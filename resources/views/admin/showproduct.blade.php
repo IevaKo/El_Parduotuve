@@ -38,9 +38,10 @@
                         <td class="tableData">Aprašymas</td>
                         <td class="tableData">Nuotrauka</td>
                         <td class="tableData">Atnaujinti duomenis</td>
-                        <td class="tableData">Ištrinti</td>
+                        <td class="tableData">Deaktyvuoti</td>
                     </tr>
                     @foreach ($data as $product)
+                    @if ($product->product_status=="Aktyvi")
                     <tr align="center" style="background-color:black;">
                         <td class="productTableElement">{{$product->title}}</td>
                         <td class="productTableElement">{{$product->price}}</td>
@@ -52,10 +53,11 @@
                             <a class= "btn btn-primary" href="{{url('updateview',$product->id)}}">Atnaujinti</a>
                         </td>
                         <td class="productTableElement">
-                        <a class="btn btn-danger" href="{{url('deleteproduct',$product->id)}}">Ištrinti</a>
+                        <a class="btn btn-danger" href="{{url('deleteproduct',$product->id)}}">Deaktyvuoti</a>
                         </td>
                         
                     </tr>
+                    @endif
                     @endforeach
                </table> 
             </div>

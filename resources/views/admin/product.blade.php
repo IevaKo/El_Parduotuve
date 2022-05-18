@@ -50,7 +50,7 @@
 
                 <div style="padding:15px;">
                 <label for="">Nuotrauka</label>
-                    <input style="color:black;" type="file" name="file">
+                    <input style="color:black;" type="file" name="file" multiple accept="image/*">
                 </div>
                 
             </div>
@@ -59,7 +59,7 @@
                         <legend class="col-form-label col-sm-2 pt-0">Subkategorija</legend>
                             <div class="col">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="1" value="1" >
+                                    <input class="form-check-input" checked type="radio" name="gridRadios" id="1" value="1" >
                                     <label class="form-check-label" for="gridRadios1">
                                         Daržovės
                                     </label>

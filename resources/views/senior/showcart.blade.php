@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-
+  <base href="/public">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -45,22 +45,22 @@ https://templatemo.com/tm-546-sixteen-clothing
     <header class="navbar flex-row ml-md-auto d-none d-md-flex">
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html"><h2>Senjorui.lt</h2></a>
+          <a class="navbar-brand" href="{{ url('seniorhome') }}"><h2>Senjorui.lt</h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item ">
-                <a class="nav-link" href="index.html">Pradžia
+                <a class="nav-link" href="{{ url('seniorhome') }}">Pradžia
                   
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="products.html">Prekės</a>
+                <a class="nav-link" href="{{url('choosecategory')}}">Prekės</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">Apie mus</a>
+                <a class="nav-link" href="{{url('aboutsenior')}}">Apie mus</a>
               </li>
               
                     <li class="nav-item active">
@@ -92,14 +92,14 @@ https://templatemo.com/tm-546-sixteen-clothing
         <table class="divcarttable2">
             <tr class="divcartrow">
                 <td class="divcarttd">Pavadinimas</td>
-                <td class="divcarttd">Kaina 1vnt.</td>
+                <td class="divcarttd">Kaina €, 1vnt.</td>
                 <td class="divcarttd">Kiekis</td>
                 <td class="divcarttd">Keisti kiekį</td>
                 <td class="divcarttd">Pašalinti</td>
             </tr>
             @foreach ($result as $item)
             <tr>
-           
+            
                 <td class="divcartproduct">{{ $item['product']->title }}</td>
                 <td class="divcartproduct">{{ $item['product']->price }}</td>
                 
@@ -107,21 +107,31 @@ https://templatemo.com/tm-546-sixteen-clothing
                 <td class="divcartproduct">
                 <form action="{{url('changequantity',$item['cartproduct_id'])}}" method="POST">
                 @csrf
-                <input class="quantitychange" name="quantity" type="number" value="{{$item['count']}}" min="1" max="10"  >
+                <input class="quantitychange" name="quantity" required type="number" value="{{$item['count']}}" min="1" max="10"  >
                 <button class="btn-warning">Keisti</button>
                 </form>
                 </td>
                 <td class="divcartproduct">
                   <a href="{{url('deletecartproduct',$item['cartproduct_id'])}}"  class=" btn-danger">Pašalinti </a>  
                 </td>
-            </tr>
+           
             @endforeach
+            
+            </tr>
+            
         </table>
+        <table>
+        <tr>
+            <td class="cartprice">Bendra krepšelio suma </td>
+            <td class="cartprice">{{$price}} €</td>  
+            </tr>
+        </table>
+        @if($count>0)
         <form method="post" action="{{url('confirmcart')}}">
           @csrf
           <button style="font-size:40px;" type="submit" class="btn btn-success btn-lg" value="Pateikti užsakymą">Pateikti užsakymą</button>
         </form>
-        
+        @endif
         
     </div>
 

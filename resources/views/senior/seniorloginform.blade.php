@@ -3,7 +3,7 @@
 <html lang="en">
 
   <head>
-
+  <base href="/public">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -68,22 +68,22 @@ https://templatemo.com/tm-546-sixteen-clothing
     <header class="navbar flex-row ml-md-auto d-none d-md-flex">
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html"><h2>Senjorui.lt</h2></a>
+          <a class="navbar-brand" href="{{ url('seniorhome') }}"><h2>Senjorui.lt</h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link" href="index.html">Pradžia
+                <a class="nav-link" href="{{ url('seniorhome') }}">Pradžia
                   
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="products.html">Prekės</a>
+                <a class="nav-link" href="{{url('choosecategory')}}">Prekės</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">Apie mus</a>
+                <a class="nav-link" href="{{url('aboutsenior')}}">Apie mus</a>
               </li>
               <li class="nav-item">
               @if (Route::has('login')) 
@@ -121,11 +121,11 @@ https://templatemo.com/tm-546-sixteen-clothing
         <h1  class="title seniorloginform">Prisijungimas</h1>
         <form action="{{ url('seniorlogin') }}" method="POST" class="seniorloginform">
         @csrf
-                    <label for="login" class="block col-6">Prisijungimo vardas</label>
+                    <label for="login" class="block col-6">Įveskite prisijungimo vardą</label>
                     <input style="color:black;" class="block col-6" type="text" name="login" placeholder="Čia įveskite prisijungimo vardą" required="">
 
                 
-                    <label for="password" class="col-6">Slaptažodis</label>
+                    <label for="password" class="col-6">Įbeskite slaptažodį</label>
                     <input style="color:black;"class="block col-6" id="password" type="password" name="password" placeholder="Čia įveskite slaptažodį" required="">
                
                 <input  class =" btn-success block col-6 buttonlogin" type="submit">

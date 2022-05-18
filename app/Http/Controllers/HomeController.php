@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\User;
 
 use App\Models\Product;
@@ -24,7 +26,13 @@ use App\Models\Payment;
 
 use App\Models\Order_products;
 
+use App\Models\Categories;
+
+use App\Models\Subcategories;
+
 use App\Mail\OverLimit;
+
+use App\Mail\OverCredit;
 
 
 
@@ -36,17 +44,18 @@ class HomeController extends Controller
     {
         $usertype=Auth::user()->type;
         if($usertype=='1'){
-            return view('admin.home');
+            $data=product::all();
+            return view('admin.showproduct', compact('data'));
         }
         else if ($usertype=='0'){
-            $data = product::paginate(1);
+            $data = product::paginate(3);
             $user=auth()->user();
            
             return view('user.home', compact('data',));
 
         }
         else{
-            $data = product::paginate(1);
+            $data = product::paginate(3);
             $senior=auth()->seniors();
             $count=cart_products::where('senior_fk',$senior->senior_id)->count();
 
@@ -54,27 +63,60 @@ class HomeController extends Controller
 
         }
     }
+    public function home(){
+        $data = product::paginate(3); 
+        return view('user.home', compact('data',));
+    }
+
+
+    public function about(){
+       
+        return view('user.about');
+    }
+    public function aboutsenior(Request $request){
+        $senior_fk=$request->cookie('senior_id');
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        return view('senior.about', compact('count'));
+    }
+
 
     public function index(){
         if(Auth::id()){
             return redirect('redirect');
         }
         else{
-            $data = product::paginate(1);
+            $data = product::paginate(3);
             return view('user.home',compact('data'));
         }
         
     }
     public function search(Request $request){
         $search=$request->search;
+        $subcategories=subcategories::all();
+        $categories=categories::all();
         if($search==''){
-            $data = product::paginate(1);
-            return view('user.home',compact('data'));
+            $data = product::paginate(3);
+            return view('user.allproductsuser',compact('data','subcategories','categories'));
         }
         $data=product::where('title','Like','%'.$search.'%')->get();
 
-        return view('user.home', compact('data'));
+        return view('user.allproductsuser', compact('data','subcategories','categories'));
     }
+    public function searchsenior(Request $request){
+        $search=$request->search;
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        $senior_fk=$request->cookie('senior_id');
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        if($search==''){
+            $data = product::paginate(3);
+            return view('senior.allproducts',compact('data','subcategories','categories','count'));
+        }
+        $data=product::where('title','Like','%'.$search.'%')->get();
+
+        return view('senior.allproducts', compact('data','subcategories','categories','count'));
+    }
+   
    
     
     public function showcart(Request $request){
@@ -82,6 +124,7 @@ class HomeController extends Controller
         $cart_products=cart_products::where('senior_fk',$senior_fk)->get();
         $count=cart_products::where('senior_fk',$senior_fk)->count();
         $products=Product::whereIn('id', $cart_products->pluck('product_fk'))->get(); 
+        $price=0.00;
         $result=[];
         foreach($cart_products as $cart_product){
             $result[]=[
@@ -89,59 +132,49 @@ class HomeController extends Controller
             'count' => $cart_product->quantity,
             'cartproduct_id'=>$cart_product->cartproduct_id,
             ];
+            $products=Product::where('id', $cart_product->product_fk)->first();
+            $price=$price+$cart_product->quantity*$products->price;
         }
         
-        return view('senior.showcart',compact ('count','cart_products','products','result'));
+        
+
+        
+        return view('senior.showcart',compact ('count','cart_products','products','result', 'price'));
     }
     public function deletecartproduct($cartproduct_id){
         $data=cart_products::find($cartproduct_id);
         $data->delete();
         return redirect()->back()->with('message','Prekė pašalinta iš krepšelio');
     }
-    public function confirmorder(Request $request)
-    {
-        $user=auth()->user();
-        $name=$user->name;
-        $email=$user->email;
-        $address=$user->address;
-        foreach((array) $request->productname as $key=>$productname)
-        {
-            $order=new order;
-            
-            $order->product_name=$request->productname[$key];
-
-            $order->price=$request->price[$key];
-            
-            $order->quantity=$request->quantity[$key];
-            
-            $order->name=$name;
-            $order->email=$email;
-            $order->address=$address;
-            $order->status='Nepatvirtintas';
-            $order->save();
-
-        }
-        DB::table('carts')->where('email',$email)->delete();
-        return redirect()->back()->with('message','Užsakymas pateiktas');    
-    }
+    
     public function registerseniorform(){
-        $data = product::paginate(1);
+        $data = product::paginate(3);
         return view('user.registerseniorform', compact('data'));
     }
     public function registersenior(Request $request){
         $request->validate([
             'login' => 'unique:seniors',
+            
         ]);
-        $seniors=new Senior();
+        $data = product::paginate(3);
+        if($request->password_confirmation==$request->password){
+             $seniors=new Senior();
         $user=auth()->user();
-        $data = product::paginate(1);
+        $data = product::paginate(3);
         $seniors->login=$request->login;
         $seniors->address=$request->address;
-        $seniors->senior_password=$request->password;
+        $seniors->senior_password=Hash::make($request['password']);
         $seniors->user_fk=$user->user_id;
-       
+        
         $seniors->save();
         return view('user.home',compact('data'))->with('message','Senjoras užregistruotas sėkmingai');
+        }
+        else {
+            return view('user.registerseniorform',compact('data'))->with('message','Slaptažodžiai nesutampa');
+            
+        }
+        
+        
     }
 
     public function loginchoice(){
@@ -153,8 +186,11 @@ class HomeController extends Controller
     public function seniorlogin(Request $request){
         $login=$request->login;
         $password=$request->password;
+        $data = product::paginate(3);
         $senior=Senior::where('login', $login)->first();
-        $data = product::paginate(1);
+        if(!$senior){
+            return redirect()->back()->with('message','Klaidingas prisijungimo vardas arba slaptažodis.');
+        }
         if($password==$senior->senior_password){   
             $senior_id=$senior->senior_id;
             $senior_fk=$request->cookie('senior_id');
@@ -166,22 +202,105 @@ class HomeController extends Controller
         }
         
     }
+    public function choosecategory(Request $request){
+        $senior_fk=$request->cookie('senior_id');
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        $categories=categories::all();
+        
+        return view('senior.choosecategory', compact('count', 'categories'));
+    }
+    public function choosesubcategory(Request $request, $category_id){
+        $senior_fk=$request->cookie('senior_id');
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        $subcategories=subcategories::where('category_fk', $category_id)->get();
+        return view('senior.choosesubcategory', compact('count', 'subcategories'));
+    }
+    public function products(Request $request, $subcategory_id ){
+        $senior_fk=$request->cookie('senior_id');
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        $data=product::where('subcategory_fk',$subcategory_id)->get();
+        $subcategory=subcategories::where('subcategory_id',$subcategory_id)->first();
+        
+        return view('senior.products', compact ('count','data','subcategory'));
+
+    }
     public function allproducts(Request $request){
         $senior_fk=$request->cookie('senior_id');
         $count=cart_products::where('senior_fk',$senior_fk)->count();
-        return view('allproducts', compact ('count'));
+        $data = product::paginate(3);
+        $subcategory=subcategories::all();
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        return view('senior.allproducts', compact ('count','data','subcategories','categories'));
 
     }
+    public function allproductsuser(){
+        $data = product::paginate(3);
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        return view('user.allproductsuser', compact ('data','subcategories','categories'));
+    }
+    public function subcategoryuser($subcategory_id){
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        $products=product::where('subcategory_fk',$subcategory_id)->get();
+        $data = $products;
+        return view('user.allproductsuser', compact ('data','subcategories','categories'));
+        
+    }
+    public function subcategorysenior(Request $request, $subcategory_id){
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        $products=product::where('subcategory_fk',$subcategory_id)->get();
+        $data = $products;
+        $senior_fk=$request->cookie('senior_id');
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        return view('senior.allproducts', compact ('data','subcategories','categories', 'count'));
+        
+    }
+    public function categorysenior(Request $request, $category_id){
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        $senior_fk=$request->cookie('senior_id');
+        $subcategory=subcategories::where('category_fk',$category_id)->get();
+        $amount=[];
+        $count=cart_products::where('senior_fk',$senior_fk)->count();
+        foreach($subcategory as $subcategory){
+            $amount[]=[
+                $subcategory->subcategory_id,
+            ];   
+        }
+        $products=product::where('subcategory_fk',$amount)->get();
+        $data = $products;
+        
+        return view('senior.allproducts', compact ('data','subcategories','categories','count'));
+        
+    }
+    public function categoryuser($category_id){
+        $subcategories=subcategories::all();
+        $categories=categories::all();
+        $subcategory=subcategories::where('category_fk',$category_id)->get();
+        $count=[];
 
+        foreach($subcategory as $subcategory){
+            $count[]=[
+                $subcategory->subcategory_id,
+            ];   
+        }
+        $products=product::where('subcategory_fk',$count)->get();
+        $data = $products;
+        return view('user.allproductsuser', compact ('data','subcategories','categories'));
+        
+    }
 
     public function seniorlogout(){
         
-            $data = product::paginate(1);
+            $data = product::paginate(3);
             return view('user.home',compact('data'));
         
     }
     public function addcart(Request $request, $id){
-        $data = product::paginate(1);
+        $data = product::paginate(3);
             $product=product::find($id);
             $cart_products= new cart_products;
             $cart_products->quantity=$request->quantity;
@@ -189,10 +308,10 @@ class HomeController extends Controller
             $cart_products->senior_fk=$request->cookie('senior_id');
             $cart_products->save();
             
-            return redirect()->to('/seniorhome')->with('message','Produktas pridėtas sėkmingai');
+            return redirect()->back()->with('message','Produktas pridėtas sėkmingai');
     }
     public function seniorhome(Request $request){
-        $data = product::paginate(1);
+        $data = product::paginate(3);
         $senior_fk=$request->cookie('senior_id');
         $count=cart_products::where('senior_fk',$senior_fk)->count();
         return view('senior.home',compact('data','count'));
@@ -220,10 +339,11 @@ class HomeController extends Controller
     }
    
     public function deletesenior($senior_id){
-        $data=senior::find($senior_id);
-        $data->delete();
+        $data=senior::where('senior_id',$senior_id)->first();
+        $data->account_status="Neaktyvi";
+        $data->update();
         
-        return redirect()->back()->with('message','Senjoro paskyra ištrinta sėkmingai');
+        return redirect()->back()->with('message','Senjoro paskyra deaktyvuota sėkmingai');
     }
        public function addcreditform($senior_id){
         $data=senior::find($senior_id);
@@ -264,6 +384,7 @@ class HomeController extends Controller
             $order->senior_fk=$senior_fk;
             $order->user_fk=$senior->user_fk;
             $user=user::where('user_id',$senior->user_fk);
+           
             foreach($cart_products as $cart_product){
                 $products=Product::where('id', $cart_product->product_fk)->first();
                $price=$price+$cart_product->quantity*$products->price;
@@ -272,14 +393,16 @@ class HomeController extends Controller
             
             if($order->price>$senior->senior_limit){
                 $order->status='Nepatvirtintas';
-                Mail::to($user)->send(new OverLimit($senior->login));
+                Mail::to($user->first()->email)->send(new OverLimit($senior->login));
             }
             else if($order->price>$senior->credit){
                 $order->status='Neapmokėtas';
+                Mail::to($user->first()->email)->send(new OverCredit($senior->login));
             }
             else {
                 $senior->credit=$senior->credit-$order->price;
                 $senior->update();
+                $order->status='Apmokėtas';
             }
             $order->save();
            
@@ -296,6 +419,69 @@ class HomeController extends Controller
             return redirect('/showcart')->with('message','Užsakymas pateiktas');
 
        }
+       public function showseniororders($senior_id){
+           
+            $senior=senior::where('senior_id', $senior_id)->first();
+            
+           $orders=orders::where('senior_fk', $senior_id)->get();
+           
+           return view('user.showseniororders',compact ('senior','orders'));
+       }
+       public function showorder($id){
+           $order_products=order_products::where('order_fk',$id)->get();
+           
+        $count=order_products::where('order_fk',$id)->get();
+        $products=Product::whereIn('id', $order_products->pluck('product_fk'))->get(); 
+        $result=[];
+        foreach($order_products as $order_product){
+            $result[]=[
+            'product' => $products->where('id', $order_product->product_fk)->first(),
+            'count' => $order_product->orderproduct_quantity,
+            'orderproduct_id'=>$order_product->orderproduct_id,
+            ];
+        }
+        
+        return view('user.showorder',compact ('count','order_products','products','result'));
+       }
+       public function showorderandconfirm($id){
+       
+        $order_products=order_products::where('order_fk',$id)->get();
+        
+     $count=order_products::where('order_fk',$id)->get();
+     $products=Product::whereIn('id', $order_products->pluck('product_fk'))->get(); 
+     $result=[];
+     foreach($order_products as $order_product){
+         $result[]=[
+         'product' => $products->where('id', $order_product->product_fk)->first(),
+         'count' => $order_product->orderproduct_quantity,
+         'orderproduct_id'=>$order_product->orderproduct_id,
+         ];
+     }
+     $order_id=$id;
+     
+     return view('user.showorderandconfirm',compact ('count','order_products','products','result','order_id'));
+    }
+    public function deleteorderproduct($orderproduct_id){
+        $data=order_products::find($orderproduct_id);
+        $data->delete();
+        return redirect()->back()->with('message','Prekė pašalinta iš krepšelio');
+    }
+    public function confirmorder($order_id){
+        $order=Orders::where('id', $order_id)->first();
+        
+        $senior=Senior::where('senior_id', $order->senior_fk)->first();
+        if ($senior->credit>$order->price){
+            $senior->credit=$senior->credit-$order->price;
+            $order->status="Apmokėtas";
+        }
+        else{
+            $order->status="Neapmokėtas";
+        }
+        $senior->update();
+        $order->update();
+        $orders=orders::where('senior_fk', $senior->senior_id)->get();
+        return view('user.showseniororders',compact ('senior','orders'));
+    }
        
 
 }

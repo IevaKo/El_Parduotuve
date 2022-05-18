@@ -45,22 +45,22 @@ https://templatemo.com/tm-546-sixteen-clothing
     <header class="navbar flex-row ml-md-auto d-none d-md-flex">
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html"><h2>Senjorui.lt</h2></a>
+          <a class="navbar-brand" href="{{ url('home') }}"><h2>Senjorui.lt</h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item ">
-                <a class="nav-link" href="index.html">Pradžia
+                <a class="nav-link" href="{{ url('home') }}">Pradžia
                   <span class="sr-only">(current)</span>
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="products.html">Prekės</a>
+                <a class="nav-link" href="{{ url('allproductsuser') }}">Prekės</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">Apie mus</a>
+                <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
               </li>
               <li class="nav-item">
               @if (Route::has('login')) 
@@ -70,7 +70,7 @@ https://templatemo.com/tm-546-sixteen-clothing
               </li>
                     <li class="nav-item">
                 <a class="nav-link" href="{{url('showsenior')}}"> 
-                <i class="fas fa-shopping-cart"></i>  
+                 
                 Senjorai</a>
               </li>
 
@@ -91,14 +91,7 @@ https://templatemo.com/tm-546-sixteen-clothing
           </div>
         </div>
       </nav>
-      @if(session()->has('message'))
-                <div class="alert alert-success">
-                    <button type="button" class="close" data-bs-dismiss="alert">X</button>
-                     {{session()->get('message')}}
-
-                </div>
-                
-                @endif
+      
     </header>
 
     <!-- Page Content -->
@@ -112,7 +105,14 @@ https://templatemo.com/tm-546-sixteen-clothing
         </x-slot>
         <h1 style="font-size:25px;">Užregistruoti senjorą</h1>
         <x-jet-validation-errors class="mb-4" />
+        @if(session()->has('message'))
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-bs-dismiss="alert">X</button>
+                     {{session()->get('message')}}
 
+                </div>
+                
+                @endif
         <form action="{{url('registersenior')}}" method="post" >
             @csrf
 

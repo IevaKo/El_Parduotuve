@@ -35,10 +35,10 @@ class AdminController extends Controller
         return view('admin.showproduct', compact('data'));
     }
     public function deleteproduct($id){
-        $data=product::find($id);
-
-        $data->delete();
-        return redirect()->back()->with('message','Produktas ištrintas sėkmingai');
+        $data=product::where('id',$id)->first();
+        $data->product_status="Neaktyvi";
+        $data->update();
+        return redirect()->back()->with('message','Produktas deaktyvuotas sėkmingai');
     }
     public function updateview($id){
         $data=product::find($id);
@@ -57,8 +57,8 @@ class AdminController extends Controller
                 }
         $data->title=$request->title;
         $data->price=$request->price;
-        $data->category=$request->category;
-        $data->subcategory=$request->subcategory;
+        
+        
         $data->description=$request->des;
 
         $data->save();

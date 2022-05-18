@@ -5,7 +5,7 @@
           <div class="col-md-12">
             <div class="section-heading">
               <h2 style="font-size:80px;">Naujausios prekės</h2>
-              <a href="products.html" style="font-size:30px;">Visos prekės <i class="fa fa-angle-right"></i></a>
+              <a href="{{ url('allproductsuser') }}" style="font-size:30px;">Visos prekės <i class="fa fa-angle-right"></i></a>
            
               <form action="{{url('search')}}" method="get" style=" padding:10px; display:flex;">
                 @csrf

@@ -45,22 +45,22 @@ https://templatemo.com/tm-546-sixteen-clothing
     <header class="navbar flex-row ml-md-auto d-none d-md-flex">
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html"><h2>Senjorui.lt</h2></a>
+          <a class="navbar-brand" href="{{ url('home') }}"><h2>Senjorui.lt</h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item ">
-                <a class="nav-link" href="index.html">Pradžia
+                <a class="nav-link" href="{{ url('home') }}">Pradžia
                   <span class="sr-only">(current)</span>
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="products.html">Prekės</a>
+                <a class="nav-link" href="{{ url('allproductsuser') }}">Prekės</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">Apie mus</a>
+                <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
               </li>
               <li class="nav-item">
               @if (Route::has('login')) 
@@ -102,7 +102,7 @@ https://templatemo.com/tm-546-sixteen-clothing
             @csrf
             <div class="mt-4">
                 <label for="credit" value="{{ __('Kreditas') }}" >Kiekis</label>
-                <input value="25.00" required id="credit" class="block mt-1 payment" type="number" min="1" step="0.01" name="credit" required />
+                <input value="25.00" required id="credit" class="block mt-1 payment" type="number" min="1" max="100" step="0.01" name="credit" required />
             </div>
             <div class="mt-4">
                 <label for="payment_code" value="{{ __('Mokėjimo kodas') }}" >Mokėjimo kodas</label>

@@ -30,6 +30,12 @@ Route::get('/redirect',[HomeController::class,'redirect']);
 
 Route::get('/',[HomeController::class,'index']);
 
+Route::get('/home',[HomeController::class,'home']);
+
+Route::get('/about',[HomeController::class,'about']);
+
+Route::get('/aboutsenior',[HomeController::class,'aboutsenior']);
+
 Route::get('/product',[AdminController::class,'product']);
 
 Route::post('/uploadproduct',[AdminController::class,'uploadproduct']);
@@ -44,13 +50,14 @@ Route::post('/updateproduct/{id}',[AdminController::class,'updateproduct']);
 
 Route::get('/search',[HomeController::class,'search']);
 
+Route::get('/searchsenior',[HomeController::class,'searchsenior']);
+
 Route::post('/addcart/{id}',[HomeController::class,'addcart']);
 
 Route::get('/showcart',[HomeController::class,'showcart']);
 
 Route::get('/delete/{id}',[HomeController::class,'deletecart']);
 
-Route::post('/order',[HomeController::class,'confirmorder']);
 
 Route::get('/registerseniorform',[HomeController::class,'registerseniorform']);
 Route::post('/registersenior',[HomeController::class,'registersenior']);
@@ -82,10 +89,40 @@ Route::post('/changequantity/{cartproduct_id}',[HomeController::class,'changequa
 
 Route::get('/deletecartproduct/{cartproduct_id}',[HomeController::class,'deletecartproduct']);
 
-
 Route::post('/confirmcart',[HomeController::class,'confirmcart']);
 
 Route::get('/allproducts',[HomeController::class,'allproducts']);
+
+Route::get('/allproductsuser',[HomeController::class,'allproductsuser']);
+
+Route::get('/showseniororders/{senior_id}',[HomeController::class,'showseniororders']);
+
+Route::get('/showorder/{id}',[HomeController::class,'showorder']);
+
+Route::get('/showorderandconfirm/{id}',[HomeController::class,'showorderandconfirm']);
+
+Route::get('/deleteorderproduct/{orderproduct_id}',[HomeController::class,'deleteorderproduct']);
+
+Route::post('/confirmorder/{order_id}',[HomeController::class,'confirmorder']);
+
+Route::get('/subcategoryuser/{subcategory_id}',[HomeController::class,'subcategoryuser']);
+
+Route::get('/categoryuser/{category_id}',[HomeController::class,'categoryuser']);
+
+Route::get('/categorysenior/{category_id}',[HomeController::class,'categorysenior']);
+
+Route::get('/subcategorysenior/{category_id}',[HomeController::class,'subcategorysenior']);
+ 
+Route::get('/choosecategory',[HomeController::class,'choosecategory']);
+
+Route::get('/choosesubcategory/{category_id}',[HomeController::class,'choosesubcategory']);
+
+Route::get('/products/{subcategory_id}',[HomeController::class,'products']);
+
+
+
+
+
 
 
 
