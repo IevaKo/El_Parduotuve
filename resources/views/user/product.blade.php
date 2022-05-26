@@ -17,17 +17,11 @@
           <div class="col-md-4">
             <div class="product-item">
               <img class="product-photo" src="/productimage/{{$product->image}}" alt="">
-              <div class="down-content">
+              <div class="down-content productinfo">
                 <h4 class="product-content">{{$product->title}}</h4>
                 <h4 class="product-content">{{$product->price}} €</h4>
                 <p class="product-content" >{{$product->description}}</p>
-                <form style="font-size:50px; padding:10px;" action="{{url('addcart',$product->id)}}" method="POST">
-                  @csrf
-                  <p class="product-content" >Kiekis</p>
-                  <input class="product-content-quantity" required name="quantity" type="number" value="1" min="1" max="10" required >
-                  <br>
-                  <input  type="submit" class="product-content btn btn-success " value="Pridėti į krepšelį">
-                </form>
+                
                 
               </div>
             </div>

@@ -58,7 +58,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('allproductsuser') }}">Prekės</a>
+                <a class="nav-link" href="{{url('choosecategoryuser')}}">Prekės</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
@@ -104,8 +104,8 @@ https://templatemo.com/tm-546-sixteen-clothing
 
     <!-- Page Content -->
     <body>
-    <button type="button" class="btn btn-outline-info btn-lg btn-block loginbutton">   <a href="{{ route('login') }}" >Globėjas</a></button>
-    <button type="button" class="btn btn-outline-info btn-lg btn-block loginbutton">   <a href="{{ url('seniorloginform') }}" >Senjoras</a></button>
+    <a type="button" class="btn btn-outline-info btn-lg btn-block loginbutton" href="{{ route('login') }}" >Globėjas</a>
+    <a type="button" class="btn btn-outline-info btn-lg btn-block loginbutton"    href="{{ url('seniorloginform') }}" >Senjoras</a>
     </body>
    
     

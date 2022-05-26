@@ -19,7 +19,7 @@
           <div class="col-md-4">
             <div class="product-item">
               <a href="#"><img class="product-photo" src="/productimage/{{$product->image}}" alt=""></a>
-              <div class="down-content">
+              <div class="down-content productinfo">
                 <h4 class="product-content" >{{$product->title}}</h4>
                 <h4 class="product-content">{{$product->price}} €</h4>
                 <p class="product-content">{{$product->description}}</p>
@@ -28,7 +28,7 @@
                   <p class="product-content" >Kiekis</p>
                   <input class="product-content-quantity" required name="quantity" type="number" value="1" min="1" max="10" >
                   <br>
-                  <input  type="submit" class="product-content btn btn-success " value="Pridėti į krepšelį">
+                  <input  type="submit" class="product-content btn btn-success btn-add" value="Pridėti į krepšelį">
                 </form>
                 
               </div>

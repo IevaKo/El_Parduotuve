@@ -2,14 +2,14 @@
 <html lang="en">
 
   <head>
-
+    <base href="/public">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <title>Sixteen Clothing HTML Template</title>
+    <title>Senjorui</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,36 +42,36 @@ https://templatemo.com/tm-546-sixteen-clothing
     <!-- ***** Preloader End ***** -->
 
     <!-- Header -->
-    <header class="">
+    <header class="navbar flex-row ml-md-auto d-none d-md-flex">
       <nav class="navbar navbar-expand-lg">
-        <div class="container">
-          <a class="navbar-brand" href="{{ url('home') }}"><h2>Sixteen <em>Clothing</em></h2></a>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{ url('home') }}"><h2>Senjorui.lt</h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ url('home') }}">Home
+              <li class="nav-item ">
+                <a class="nav-link" href="{{ url('home') }}">Pradžia
                   <span class="sr-only">(current)</span>
                 </a>
               </li> 
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="{{url('choosecategoryuser')}}">Prekės</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="contact{{ url('home') }}">Susisiekite</a>
-              </li>
-              <li class="nav-item">
               @if (Route::has('login')) 
                     @auth
                     <li class="nav-item">
-                <a class="nav-link" href="{{url('showcart')}}"> 
-                <i class="fas fa-shopping-cart"></i>  
-                Krepšelis[{{$count}}]</a>
+                <a class="nav-link" href="{{url('registersenior')}}">Užregistruoti senjorą</a>
+              </li>
+              </li>
+                    <li class="nav-item ">
+                <a class="nav-link" href="{{url('showsenior')}}">Senjorai </a>
+                
               </li>
 
                     <x-app-layout>
@@ -91,47 +91,55 @@ https://templatemo.com/tm-546-sixteen-clothing
           </div>
         </div>
       </nav>
-      @if(session()->has('message'))
-                <div class="alert alert-success">
+      
+    </header>
+    
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    
+    <!-- Banner Ends Here -->
+    @if(session()->has('message'))
+                <div class="alert alert-success block">
                     <button type="button" class="close" data-bs-dismiss="alert">X</button>
                      {{session()->get('message')}}
 
                 </div>
+                
                 @endif
-    </header>
+               
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="">
+              <h1 class="subcategoryproducts">{{$subcategory->name }}</h1>
+  
+            </div>
+          </div>
+        </div>
+      </div>            
+     
+    @include('user.product')
+    <td class="">
+        <a class= "btn btn-lg btn-block categorybutton" href="{{url('choosecategory')}}">Grįžti atgal</a>
+     </td>
+    </div>
     
     
-<div style="padding:100px;" align="center">
-    <table>
-        <tr style="background-color:black;color:white;">
-            <td style="padding:10px;font-size:20px;">Prekė</td>
-            <td style="padding:10px;font-size:20px;">Kiekis</td>
-            <td style="padding:10px;font-size:20px;">Kaina</td>
-            <td style="padding:10px;font-size:20px;">Veiksmas</td>
-        </tr>
-        <form action="{{url('order')}}" method="POST">
-            @csrf
-    @foreach ($cart as $carts)
-        <tr style="background-color:black;">
-            <td style="padding:10px;color:white;">
-                <input hidden="" type="text" name="productname[]" value="{{$carts->product_title}}">
-                {{$carts->product_title}}
-            </td>
-            <td style="padding:10px;color:white;">
-            <input hidden="" type="text" name="quantity[]" value="{{$carts->quantity}}">
-            {{$carts->quantity}}</td>
-            <td style="padding:10px;color:white;">
-            <input hidden="" type="text" name="price[]" value="{{$carts->price}}">
-            {{$carts->price}}</td>
-            <td style="padding:10px;color:white;">
-                <a class="btn btn-danger" href="{{url('delete',$carts->id)}}">Pašalinti</a>
-            </td>
-        </tr>
-    @endforeach
-    </table>
-    <button class="btn btn-success">Pateikti užsakymą</button>
-        </form>
-</div>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+              <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
+            
+            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>

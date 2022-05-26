@@ -125,10 +125,10 @@ https://templatemo.com/tm-546-sixteen-clothing
                     <input style="color:black;" class="block col-6" type="text" name="login" placeholder="Čia įveskite prisijungimo vardą" required="">
 
                 
-                    <label for="password" class="col-6">Įbeskite slaptažodį</label>
+                    <label for="password" class="col-6">Įveskite slaptažodį</label>
                     <input style="color:black;"class="block col-6" id="password" type="password" name="password" placeholder="Čia įveskite slaptažodį" required="">
                
-                <input  class =" btn-success block col-6 buttonlogin" type="submit">
+                <input  class =" btn-success block col-6 loginseniorbutton" type="submit">
 
 
         </form>

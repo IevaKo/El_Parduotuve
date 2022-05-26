@@ -57,7 +57,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('allproductsuser') }}">Prekės</a>
+                <a class="nav-link" href="{{url('choosecategoryuser')}}">Prekės</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
@@ -116,7 +116,7 @@ https://templatemo.com/tm-546-sixteen-clothing
 
             <div class="flex items-center justify-end mt-4">
 
-                <input type="submit">
+                <input type="submit" class="product-content btn btn-success btn-add ">
             </div>
         </form>
 

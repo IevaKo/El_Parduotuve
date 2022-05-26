@@ -4,10 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Orders;
+use App\Models\Senior;
+use App\Models\User;
 class AdminController extends Controller
 {
     public function product(){
         return view('admin.product');
+    }
+    public function orders(){
+        $orders=orders::all();
+        foreach ($orders as $key =>$order){
+            $order['senior']=senior::where('senior_id', $order->senior_fk)->first();
+            $order['user']=user::where('user_id', $order->user_fk)->first();
+            $orders[$key]=$order;
+
+        }
+        return view('admin.orders', compact('orders'));
     }
 
     public function uploadproduct(Request $request){
@@ -40,6 +53,14 @@ class AdminController extends Controller
         $data->update();
         return redirect()->back()->with('message','Produktas deaktyvuotas sėkmingai');
     }
+    
+    public function updateorder($id){
+        $data=orders::where('id',$id)->first();
+        $data->status="Pristatytas";
+        $data->update();
+        return redirect()->back()->with('message','Užsakymo būsena pakeista');
+    }
+
     public function updateview($id){
         $data=product::find($id);
         return view('admin.updateview', compact('data'));

@@ -98,7 +98,7 @@ https://templatemo.com/tm-546-sixteen-clothing
         <div class="row">
           <div class="col-md-12">
             <div class="">
-              <h1>Visos subkategorijos „{{$subcategory->name }}“ prekės</h1>
+              <h1 class="subcategoryproducts">{{$subcategory->name }}</h1>
   
             </div>
           </div>
@@ -106,7 +106,9 @@ https://templatemo.com/tm-546-sixteen-clothing
       </div>            
      
     @include('senior.product')
-    <h1>Norėdami grįžti į kategorijos pasirinkimą spauskite skiltį „Prekės“</h1>
+    <td class="">
+        <a class= "btn btn-lg btn-block categorybutton" href="{{url('choosecategory')}}">Grįžti atgal</a>
+     </td>
     </div>
     
     

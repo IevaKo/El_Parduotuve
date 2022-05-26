@@ -38,9 +38,13 @@ Route::get('/aboutsenior',[HomeController::class,'aboutsenior']);
 
 Route::get('/product',[AdminController::class,'product']);
 
+Route::get('/orders',[AdminController::class,'orders']);
+
 Route::post('/uploadproduct',[AdminController::class,'uploadproduct']);
 
 Route::get('/showproduct',[AdminController::class,'showproduct']);
+
+Route::get('/updateorder/{id}',[AdminController::class,'updateorder']);
 
 Route::get('/deleteproduct/{id}',[AdminController::class,'deleteproduct']);
 
@@ -115,9 +119,15 @@ Route::get('/subcategorysenior/{category_id}',[HomeController::class,'subcategor
  
 Route::get('/choosecategory',[HomeController::class,'choosecategory']);
 
+Route::get('/choosecategoryuser',[HomeController::class,'choosecategoryuser']);
+
 Route::get('/choosesubcategory/{category_id}',[HomeController::class,'choosesubcategory']);
 
+Route::get('/choosesubcategoryuser/{category_id}',[HomeController::class,'choosesubcategoryuser']);
+
 Route::get('/products/{subcategory_id}',[HomeController::class,'products']);
+
+Route::get('/productsuser/{subcategory_id}',[HomeController::class,'productsuser']);
 
 
 

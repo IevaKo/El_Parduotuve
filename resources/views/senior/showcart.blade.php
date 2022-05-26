@@ -88,6 +88,18 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </div>
                 
                 @endif
+      <div class="divcarttable3">
+        <table class="divcarttable3">
+          <tr class="divcartrow">
+          <td class="divcartcredit"> Jūsų kreditas</td>
+             <td class="divcartcredit"> {{$senior->credit}} €</td>
+          </tr>
+          <tr class="divcartrow">
+          <td class="divcartcredit"> Jūsų limitas</td>
+             <td class="divcartcredit"> {{$senior->senior_limit}} €</td>
+          </tr>
+        </table>
+    </div>
     <div class="divcarttable">
         <table class="divcarttable2">
             <tr class="divcartrow">

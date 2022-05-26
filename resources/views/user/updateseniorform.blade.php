@@ -57,7 +57,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('allproductsuser') }}">Prekės</a>
+                <a class="nav-link" href="{{url('choosecategoryuser')}}">Prekės</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
@@ -99,7 +99,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            
         </x-slot>
         <h1 style="font-size:25px;">Atnaujinti senjoro duomenis</h1>
         <x-jet-validation-errors class="mb-4" />
@@ -118,7 +118,7 @@ https://templatemo.com/tm-546-sixteen-clothing
 
             <div class="flex items-center justify-end mt-4">
 
-                <input type="submit">
+                <input type="submit" class="product-content btn btn-success btn-add ">
             </div>
         </form>
     </x-jet-authentication-card>

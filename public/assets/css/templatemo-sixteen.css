@@ -5,19 +5,33 @@ TemplateMo 546 Sixteen Clothing
 https://templatemo.com/tm-546-sixteen-clothing
 
 */
+.loginseniorbutton{
+	text-align: center !important;
+	height: 60px;
+}
+
+.btn-add{
+	background-color: #218838 !important;
+}
+.subcategoryproducts{
+	padding-top: 10px;
+	font-size: 50px;
+}
 .categorybutton:hover{
 	margin: 5px;
 	background-color:#064579;
 	color: white;
+	font-size: 40px;
 	
 }
 .categorybutton{
 	margin: 5px;
 	background-color:#064579;
 	color: white;
+	font-size: 40px;
 }
 .product-content-quantity{
-	width: 150px;
+	width: 140px;
 	font-size: 25px;
 }
 .menu-title{
@@ -85,32 +99,52 @@ form.payment{
 	align-items: center;
 }
 .divcartproduct{
-	font-size: 39px;
+	font-size: 30px;
 	border: 5px solid #1e1e1e;
 	text-align: center;
 }
 .navlastitem{
 	align-self: flex-end;
 }
+.seniortabletr{
+	margin-top: 10px;
+	padding-top: 10px;
+}
 .seniortabletdinfo{
 	text-align: center;
-	background-color: #ace600;
+	background-color: #064579;
+	color: white;
 	border: 1px solid #1e1e1e;
+	margin-top: 10px !important;
 }
-
+.divcartcredit{
+	background-color: #0a497c;
+	color: white;
+	border: 1px solid #1e1e1e;
+	font-size: 20px;
+}
 .seniortabletd{
 	padding: 20px;
-	background-color: #abb01b;
+	background-color: #052c4d;
+	color: white;
 	border: 1px solid #1e1e1e;
 }
 .divcarttd{
 	padding: 10px;
-	font-size: 40px;
+	font-size: 35px;
+	color:white;
 	border: 5px solid #1e1e1e;
 }
 .divcartrow{
-	background-color: #abb01b;
+	background-color: #064579;
 	
+}
+.divcarttable3{
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 100%;
 }
 .divcarttable2{
 	align-items: center;
@@ -119,6 +153,7 @@ form.payment{
 }
 .divcarttable{
 	padding:50px;
+	padding-top: 15px;
 	display:grid;
 	align-items: center;
 	align-self: center;
@@ -134,15 +169,15 @@ body .seniorloginform{
 	width: 100%;
 }
 .loginbutton{
-	color:#121212 !important;
+	color:#3406be !important;
 	height: 200px;
 	text-align: center;
 	font-size: 100px;
-	background-color: lightgrey;
+	background-color: rgb(214, 216, 247);
   	color: #abb01b;
 }
 .loginbutton:hover{
-	color:#121212 !important;
+	color:#3406be !important;
 	height: 200px;
 	text-align: center;
 	font-size: 100px;
@@ -383,7 +418,7 @@ header .navbar {
 .background-header .navbar-nav .nav-link.active,
 .background-header .navbar-nav .nav-link.show,
 .background-header .navbar-nav .show>.nav-link {
-	color: #abb01b!important;
+	color: #2248c6!important;
 }
 .navbar .navbar-brand {
 	float: 	left;
@@ -428,8 +463,8 @@ header .navbar {
 .navbar .navbar-nav .nav-link.show,
 .navbar .navbar-nav .show>.nav-link {
 	color: #fff;
-	padding-bottom: 25px;
-	border-bottom: 3px solid #abb01b;
+	
+	border-bottom: 3px solid #bdc90d;
 }
 .navbar .navbar-toggler-icon {
 	background-image: none;

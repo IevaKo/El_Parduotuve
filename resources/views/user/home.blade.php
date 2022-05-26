@@ -57,7 +57,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('allproductsuser') }}">Prekės</a>
+                <a class="nav-link" href="{{url('choosecategoryuser')}}">Prekės</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('about') }}">Apie mus</a>
@@ -110,7 +110,7 @@ https://templatemo.com/tm-546-sixteen-clothing
           <div class="col-md-12">
             <div class="">
               <h2 style="font-size:30px;">Populiariausios prekės</h2>
-              <a href="{{url('choosecategory')}}" style="font-size:15px;">Norint pasirinkti ieškomos prekės kategoriją spauskikte čia <i class="fa fa-angle-right"></i></a>
+              <a href="{{url('choosecategoryuser')}}" style="font-size:15px;">Norint pasirinkti ieškomos prekės kategoriją spauskikte čia <i class="fa fa-angle-right"></i></a>
             </div>
           </div>
         </div>
